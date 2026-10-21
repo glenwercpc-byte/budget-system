@@ -633,7 +633,7 @@ function renderLogin(kind, title, desc, fn, err) {
 /* ════════ 관리자 총괄 ════════ */
 function openAdmin() {
   S.team = null; $('#foot').hidden = true;
-  if (!DEMO && !S.adminPw) return renderLogin('admin', '관리자 총괄', '전체 팀의 예산안을 보고 승인하려면 관리자 비밀번호를 입력하세요.', function (pw) { S.adminPw = pw; return loadAdmin(); });
+  // 관리자 비밀번호가 설정되지 않았으면 바로 열리고, 설정되어 있으면 loadAdmin 이 비밀번호 화면을 띄웁니다.
   loadAdmin().catch(function (e) { $('#app').innerHTML = '<div class="notice bad">' + esc(e.message) + '</div>'; });
 }
 function loadAdmin() {
