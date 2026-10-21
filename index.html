@@ -45,6 +45,8 @@ a{color:var(--accent)}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
 .brand{display:flex;flex-direction:column;line-height:1.2;margin-right:auto;min-width:0}
+.brand{cursor:pointer}
+.brand:hover b{color:var(--title)}
 .brand b{font-size:15px;font-weight:700;letter-spacing:-.01em}
 .brand span{font-size:12px;color:var(--muted)}
 .ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -64,6 +66,7 @@ main{padding-block:24px 120px}
 .page-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
 .page-h h1{font-size:26px;font-weight:700;letter-spacing:-.02em}
 .page-h p{margin:4px 0 0;color:var(--muted);max-width:68ch}
+.page-h .page-side{flex:0 1 520px;margin:0;padding-bottom:3px}
 
 /* guidance */
 details.guide{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:22px}
@@ -236,7 +239,7 @@ textarea.csv{width:100%;height:140px;font-family:var(--f-num);font-size:12px;bor
 
 <header class="top">
   <div class="wrap">
-    <div class="brand"><b>시카고 언약 장로교회 · 예산 편성</b><span id="brandSub">Chicago Covenant Presbyterian Church</span></div>
+    <div class="brand" id="brandHome" role="link" tabindex="0" title="처음 화면으로"><b>시카고 언약 장로교회 · 예산 편성</b><span id="brandSub">Chicago Covenant Presbyterian Church</span></div>
     <div class="ctl">
       <span class="demo-flag" id="demoFlag" hidden>데모 모드</span>
       <label for="yearSel" class="eyebrow" style="letter-spacing:.04em">예산 연도</label>
@@ -411,7 +414,7 @@ function renderHome() {
   exp.forEach(function (t) { var i = r.teamInfo[t.id] || {}; tot.prev += i.prevBudget || 0; tot.prop += i.proposed || 0; var s = r.status[t.id]; if (s && (s.status === '제출' || s.status === '승인')) tot.done++; });
   var rev = r.teamInfo.REVENUE || { prevBudget: 0, proposed: 0 };
   var html = '<div class="page-h"><div><div class="eyebrow">' + y + ' Budget Proposal</div><h1>' + y + '년 예산 편성</h1>' +
-    '<p>담당 팀을 선택해 계정별 항목 예산과 산출 근거를 입력하세요. ' + esc(r.actualPeriod || '') + ' 실적이 기준값으로 채워져 있습니다.</p></div></div>';
+    '</div><p class="page-side">담당 팀을 선택해 계정별 항목 예산과 산출 근거를 입력하세요. ' + esc(r.actualPeriod || '') + ' 실적이 기준값으로 채워져 있습니다.</p></div>';
   html += '<div class="strip">' +
     '<div><div class="k">' + (y - 1) + '년 지출 예산</div><div class="v">' + money(tot.prev) + '</div></div>' +
     '<div><div class="k">' + y + '년 지출 제안 (저장분)</div><div class="v">' + money(tot.prop) + '</div></div>' +
@@ -747,6 +750,8 @@ function csv() {
 
 /* ════════ 시작 ════════ */
 $('#homeBtn').onclick = function () { go('home'); };
+$('#brandHome').onclick = function () { go('home'); };
+$('#brandHome').onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go('home'); } };
 $('#adminBtn').onclick = function () { go('admin'); };
 $('#yearSel').onchange = function () { var y = Number(this.value); loadInit(y).then(function () { go('home'); }); };
 document.addEventListener('toggle', function (e) { if (e.target.id === 'guide') store('ccpc-guide-closed', !e.target.open); }, true);
