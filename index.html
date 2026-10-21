@@ -15,17 +15,20 @@
   --ok:#1d7349; --ok-soft:#e1f2e8; --warn:#9a5a06; --warn-soft:#fbefdc; --bad:#ad2a22; --bad-soft:#fbe5e3; --info:#2756a3; --info-soft:#e4ecfa; --idle:#6b7682; --idle-soft:#eceff2;
   --f-body:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --title:#123a63; --cat-bg:#eaf3fc;
   --r:8px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0e141a; --surface:#151d25; --surface-2:#19232c; --ink:#e4eaf0; --muted:#94a2b0; --line:#2a3642; --line-2:#202b35;
   --accent:#86b8dd; --accent-ink:#0e141a; --accent-soft:#1b2d3c;
   --ok:#5cc28c; --ok-soft:#14301f; --warn:#e3a94e; --warn-soft:#33260f; --bad:#f08178; --bad-soft:#3a1a18; --info:#8fb0ee; --info-soft:#18243a; --idle:#97a3ae; --idle-soft:#212b34;
+  --title:#a9cdf0; --cat-bg:#1a2a3a;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0e141a; --surface:#151d25; --surface-2:#19232c; --ink:#e4eaf0; --muted:#94a2b0; --line:#2a3642; --line-2:#202b35;
   --accent:#86b8dd; --accent-ink:#0e141a; --accent-soft:#1b2d3c;
   --ok:#5cc28c; --ok-soft:#14301f; --warn:#e3a94e; --warn-soft:#33260f; --bad:#f08178; --bad-soft:#3a1a18; --info:#8fb0ee; --info-soft:#18243a; --idle:#97a3ae; --idle-soft:#212b34;
+  --title:#a9cdf0; --cat-bg:#1a2a3a;
   color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;margin:0}
@@ -120,9 +123,9 @@ details.guide[open] summary::after{content:"접기"}
 .acct{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:16px;overflow:hidden}
 .acct-h{display:flex;gap:12px 20px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2);flex-wrap:wrap}
 .acct-h .t{display:flex;gap:10px;align-items:baseline;min-width:0;flex-wrap:wrap}
-.acct-h .code{font-family:var(--f-num);font-weight:600;color:var(--accent);font-size:15px}
-.acct-h h2{font-size:17px;font-weight:700}
-.acct-h .en{font-size:13px;color:var(--muted)}
+.acct-h .code{font-family:var(--f-num);font-weight:600;color:var(--title);font-size:15px}
+.acct-h h2{font-size:17px;font-weight:700;color:var(--title)}
+.acct-h .en{font-size:13px;color:var(--title);font-weight:500}
 .acct-figs{display:flex;gap:18px;flex-wrap:wrap}
 .acct-figs div{display:flex;flex-direction:column;line-height:1.25}
 .acct-figs span{font-size:11.5px;color:var(--muted)}
@@ -139,18 +142,20 @@ details.guide[open] summary::after{content:"접기"}
 .line:last-of-type{border-bottom:0}
 .line.excl .cat b,.line.excl .amt{color:var(--muted);text-decoration:line-through}
 .cat{min-width:0}
-.cat b{font-weight:600;font-size:14px;display:block}
+.cat b{font-weight:600;font-size:14px;display:block;background:var(--cat-bg);color:var(--title);padding:3px 8px;border-radius:4px;margin:0 0 3px -8px}
+.line.excl .cat b{background:transparent}
 .cat input{width:100%}
 .cat small{display:block;color:var(--muted);font-size:12px;line-height:1.4;overflow-wrap:anywhere}
 .cat .hint{color:var(--warn)}
 .act{text-align:right;font-family:var(--f-num);font-size:13.5px;font-variant-numeric:tabular-nums}
 .act small{display:block;font-size:11px;color:var(--muted);font-family:var(--f-body)}
-.line select{width:100%;padding:6px 6px;font-size:13.5px}
+.line select{width:100%;height:34px;padding:0 6px;font-size:13.5px}
+.line .nin{height:34px}
 .nin{width:100%;text-align:right;font-family:var(--f-num);font-variant-numeric:tabular-nums;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:13.5px}
 .nin:disabled{background:var(--surface-2);color:var(--muted)}
-.blabel{display:block;font-size:11px;color:var(--muted);text-align:right;margin-top:2px}
+.blabel{grid-column:4 / 5;font-size:11.5px;color:var(--muted);text-align:right;margin-top:6px;align-self:center}
 .amt{text-align:right;font-family:var(--f-num);font-weight:600;font-size:15px;font-variant-numeric:tabular-nums}
-.why{grid-column:1 / -1;display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.why{grid-column:1 / 4;display:flex;gap:10px;align-items:center;margin-top:6px;flex-wrap:wrap;min-width:0}
 .why .auto{font-size:12.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line-2);border-radius:4px;padding:2px 8px;font-family:var(--f-num)}
 .why input{flex:1 1 220px;min-width:0;font-size:13px;padding:5px 8px;border:1px dashed var(--line);border-radius:6px;background:transparent}
 .del{border:0;background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:4px}
@@ -210,7 +215,8 @@ textarea.csv{width:100%;height:140px;font-family:var(--f-num);font-size:12px;bor
   .act{text-align:left}
   .lbl-m{display:block;font-size:11px;color:var(--muted);font-weight:600}
   .amt{text-align:left;font-size:17px}
-  .blabel{text-align:left}
+  .blabel{display:none}
+  .why{grid-column:1 / -1}
   .del{justify-self:end}
   .acct-figs{gap:12px}
   .top{position:static}
@@ -263,7 +269,7 @@ var S = { init: null, year: null, team: null, data: null, lines: [], pw: {}, adm
 /* ════════ 유틸 ════════ */
 var $ = function (s, r) { return (r || document).querySelector(s); };
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-function n(x) { var v = Number(String(x == null ? '' : x).replace(/[$,\s]/g, '')); return isFinite(v) ? v : 0; }
+function n(x) { var v = Number(String(x == null ? '' : x).replace(/\u2212/g, '-').replace(/[$,\s]/g, '')); return isFinite(v) ? v : 0; }
 function money(x, cents) { var v = n(x); var s = Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0 }); return (v < 0 ? '−$' : '$') + s; }
 function pct(a, b) { if (!b) return a ? '신규' : '—'; var p = (a - b) / b * 100; return (p > 0 ? '+' : '') + p.toFixed(1) + '%'; }
 function deltaCls(a, b) { return a > b ? 'up' : a < b ? 'dn' : ''; }
@@ -492,12 +498,13 @@ function lineHtml(L, lk) {
     '<div class="act"><span class="lbl-m">9개월 실적</span>' + (L.custom ? '—' : money(L.actual9)) + '</div>' +
     '<div><span class="lbl-m">산출 방식</span><select id="m-' + esc(L.lineId) + '" data-i="' + i + '" data-f="method"' + dis + '>' +
       Object.keys(METHOD).map(function (k) { return '<option value="' + k + '"' + (k === L.method ? ' selected' : '') + '>' + METHOD[k].label + '</option>'; }).join('') + '</select></div>' +
-    '<div><span class="lbl-m">기준액</span><input class="nin" inputmode="decimal" id="b-' + esc(L.lineId) + '" data-i="' + i + '" data-f="basis" value="' + (L.method === 'EXCL' ? '' : n(L.basis)) + '"' + (lk || L.method === 'EXCL' ? ' disabled' : '') + '><span class="blabel" data-lbl>' + m.basis + '</span></div>' +
+    '<div><span class="lbl-m">기준액 · ' + m.basis + '</span><input class="nin" inputmode="decimal" id="b-' + esc(L.lineId) + '" data-i="' + i + '" data-f="basis" value="' + (L.method === 'EXCL' ? '' : money(L.basis, true)) + '"' + (lk || L.method === 'EXCL' ? ' disabled' : '') + '></div>' +
     '<div><span class="lbl-m">인상률 %</span><input class="nin" inputmode="decimal" id="r-' + esc(L.lineId) + '" data-i="' + i + '" data-f="rate" value="' + (n(L.rate) || '') + '" placeholder="0"' + (lk || L.method === 'EXCL' ? ' disabled' : '') + '></div>' +
     '<div><span class="lbl-m">조정액 $</span><input class="nin" inputmode="decimal" id="a-' + esc(L.lineId) + '" data-i="' + i + '" data-f="adj" value="' + (n(L.adj) || '') + '" placeholder="0"' + (lk || L.method === 'EXCL' ? ' disabled' : '') + '></div>' +
     '<div class="amt"><span class="lbl-m">' + S.year + ' 예산</span><span data-amt>' + money(c.amount) + '</span></div>' +
     '<div>' + (L.custom && !lk ? '<button class="del" type="button" title="항목 삭제" aria-label="항목 삭제" data-del="' + i + '">×</button>' : '') + '</div>' +
     '<div class="why"><span class="auto" data-auto>' + esc(c.auto) + '</span><input id="n-' + esc(L.lineId) + '" data-i="' + i + '" data-f="note" value="' + esc(L.note) + '" placeholder="산출 근거 메모 (예: 2027년 보험 갱신 견적 반영)"' + dis + '></div>' +
+    '<div class="blabel">' + (L.method === 'EXCL' ? '' : m.basis) + '</div>' +
     '</div>';
 }
 function acctHtml(a, lk) {
@@ -521,6 +528,10 @@ function bindEditor() {
     if (f === 'method') return;
     L[f] = el.value; markDirty(); updRow(el.closest('.line'), L);
   };
+  app.addEventListener('focusout', function (e) {
+    var el = e.target; if (el.dataset.f !== 'basis' || el.disabled) return;
+    el.value = money(S.lines[Number(el.dataset.i)].basis, true);
+  });
   app.onchange = function (e) {
     var el = e.target; if (el.dataset.f !== 'method') return;
     var L = S.lines[Number(el.dataset.i)], prev = L.method;
