@@ -67,6 +67,9 @@ main{padding-block:24px 120px}
 .page-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
 .page-h h1{font-family:var(--f-title);font-size:28px;font-weight:800;letter-spacing:-.02em;color:var(--title)}
 .page-h p{margin:4px 0 0;color:var(--muted);max-width:68ch}
+.title-row{display:flex;align-items:baseline;gap:4px 18px;flex-wrap:wrap}
+.title-row p{margin:0;max-width:none;flex:1 1 300px}
+.page-h > div:first-child{flex:1 1 auto;min-width:0}
 .page-h .page-side{flex:0 1 520px;margin:0;padding-bottom:3px}
 
 /* guidance */
@@ -148,6 +151,7 @@ details.guide[open] summary::after{content:"접기"}
 .cat{min-width:0}
 .cat b{font-weight:600;font-size:14px;display:inline-block;max-width:100%;background:var(--cat-bg);color:var(--title);padding:2px 8px;border-radius:4px;margin:0 0 3px -8px}
 .line.excl .cat b{background:transparent}
+.cat b .ko{font-weight:500}
 .cat input{width:100%}
 .cat small{display:block;color:var(--muted);font-size:12px;line-height:1.4;overflow-wrap:anywhere}
 .cat .hint{color:var(--warn)}
@@ -269,6 +273,14 @@ var METHOD = {
   EXCL:  { label: '제외', basis: '—', desc: '환불·조정 — 산출 제외' }
 };
 var DEMO = !API_URL;
+/* 항목 이름 한글 번역 (영어 항목 오른쪽에 표시) */
+var KO = {"Software & Online Subscriptions":"소프트웨어·온라인 구독료","Telephone & Internet Service":"전화·인터넷","Office Supplies & Water":"사무용품·식수","Computer Equipment & Furniture":"컴퓨터 장비·가구","Meals & Hospitality (Restaurants & Refreshments)":"식사·접대 (식당·다과)","Ministry, Events & Fellowship":"사역·행사·친교","Books, Curriculum & Resources":"도서·교재·자료","Staff Gifts & Appreciation":"교역자·직원 선물·감사","Travel, Lodging, Parking & Tolls":"출장·숙박·주차·통행료","Printing, Postage & Advertising":"인쇄·우편·광고","Professional Fees & Honorariums":"전문 용역비·사례비","Insurance":"보험료","Bank, License & Filing Fees":"은행·면허·등록 수수료","Refunds & Adjustments":"환불·조정","Other / Miscellaneous":"기타","Presbytery Membership Fee":"노회 상회비","Scholarship":"장학금","Administration":"행정","Office Staff Gross Pay":"사무직원 급여","Pay Adjustments (Journal Entries)":"급여 조정 (분개)","Website Service (Contract)":"웹사이트 관리 (계약)","Pastor":"목회자","Pastor Gross Pay":"목회자 사례비","Pension - Board of Pensions":"연금 (Board of Pensions)","SECA Allowance":"SECA 보조금","Guest Speaker & Staff Training":"초청 강사·직원 교육","Retirement Contributions & Deductions":"은퇴연금 적립·공제","Employer FICA & Medicare":"고용주 FICA·메디케어","Payroll Reimbursement Items":"급여 상환 항목","Employer Taxes (Social Security & Medicare)":"고용주 세금 (사회보장·메디케어)","Journal Entry Adjustments":"분개 조정","Congregation Care":"교우 돌봄","New Family Ministry":"새가족 사역","Worship & Service Supplies":"예배 용품","YouTube Video Production":"유튜브 영상 제작","Worship Software Subscription":"예배 소프트웨어 구독","Robe & Linen Cleaning":"가운·린넨 세탁","A/V Equipment & Supplies":"영상·음향 장비·소모품","Stage Lighting":"무대 조명","Worship Software":"예배 소프트웨어","Musical Instruments":"악기","Refunds & Credits":"환불·크레딧","Monthly Pay (Check)":"월 사례비 (수표)","Monthly Band Member Pay":"밴드 단원 월 사례비","Per-Service Pay":"예배별 사례비","Pay Adjustments":"사례비 조정","Choir Uniforms":"성가대 가운","Choir Retreat & Trips":"성가대 수련회·여행","Choir Meals & Lunch Supplies":"성가대 식사·점심","Licenses & Registration Fees":"저작권·등록비","Staff Gifts":"직원 선물","Mission Organization Support & Donations":"선교단체 후원·헌금","Prayer Ministry Support":"기도 사역 지원","Bible Study Materials":"성경공부 교재","Guatemala Mission":"과테말라 선교","Missionary & Mission Partner Support":"선교사·협력 선교 후원","Mexico Mission":"멕시코 선교","Relief Aid (Venezuela)":"구호 지원 (베네수엘라)","Wire Transfer Fees":"송금 수수료","Senior Care":"시니어 케어","Sunday Lunch Supplies":"주일 점심 준비","Member Fall Trip":"교인 가을 야유회","Share the Love Supplies":"사랑 나눔 물품","Meeting Snacks & Staff Meals":"회의 간식·봉사자 식사","Other Supplies (review)":"기타 물품 (확인 필요)","Classroom Supplies":"교실 용품","Teaching & Activity Supplies":"교육·활동 용품","VBS (Vacation Bible School)":"여름성경학교 (VBS)","Birthdays, Gifts & Special Days":"생일·선물·특별일","Lunch & Snacks":"점심·간식","Curriculum & Bible Study Books":"교재·성경공부 도서","Activities":"활동","Ministry":"사역","Friday Service Meals":"금요예배 식사","Ministry Meals & Fellowship":"사역 식사·친교","Retreats":"수련회","General Ministry (Shin Min Lee)":"일반 사역 (Shin Min Lee)","KSF Ministry Support":"KSF 사역 지원","Supplies":"용품","Gifts":"선물","Staff Gross Pay (Payroll)":"교역자 사례비 (급여)","Prior-Period Pay (Dec 2025)":"전기 사례비 (2025년 12월분)","Bible Writing Gifts & Supplies":"성경 필사 선물·용품","Books & Study Materials":"도서·학습 자료","Bible Study Snacks":"성경공부 간식","Small Group Meals":"소그룹 식사","Praise & Choir Team Honorariums":"찬양·성가팀 사례비","Lunch & Fellowship Meals":"점심·친교 식사","Retreat":"수련회","Service Supplies & Bibles":"예배 용품·성경","Community Reach Out":"지역사회 봉사","Utilities - Electric (ComEd)":"전기료 (ComEd)","Lawn & Landscaping":"잔디·조경","Utilities - Gas Heating (Nicor)":"가스 난방비 (Nicor)","Building Repairs & Contractors":"건물 수리·시공업체","Vehicle Fuel (Gas)":"차량 연료비","Kitchen Supplies":"주방 용품","Maintenance & Cleaning Supplies":"관리·청소 용품","Waste Management":"쓰레기 수거","Fire Alarm & Safety":"화재경보·안전","Vehicle Repair & Maintenance":"차량 수리·정비","Utilities - Water & Sewer":"상하수도료","Furniture, Fixtures & Mats":"가구·비품·매트","Repair Parts & Hardware":"수리 부품·철물","Drinking Water Delivery":"식수 배달","Pest Control":"해충 방제","Recreation Equipment":"레크리에이션 장비","Office Supplies":"사무용품","Custodian / Maintenance Staff Gross Pay":"관리 직원 급여","Kitchen Helper Pay":"주방 도우미 사례비","Day Labor":"일용 인건비","Accounting & Payroll Software (QuickBooks)":"회계·급여 소프트웨어 (QuickBooks)","Office Supplies & Equipment":"사무용품·장비","Flowers":"꽃","Wedding Officiant Gifts":"결혼 주례 사례","Service Brochure Printing":"순서지 인쇄","Loan Interest":"대출 이자"};
+function koName(cat, acct) {
+  var parts = String(cat || '').split(' · ').map(function (p) { return KO[p] || ''; });
+  if (parts.every(Boolean)) return parts.join(' · ');
+  var a = S.data && S.data.accounts.filter(function (x) { return x.acct === acct; })[0];
+  return a && a.nameEn === cat ? a.nameKr : '';
+}
 var S = { init: null, year: null, team: null, data: null, lines: [], pw: {}, adminPw: '', dirty: false, summary: null };
 
 /* ════════ 유틸 ════════ */
@@ -479,8 +491,8 @@ function renderTeam() {
   var r = S.data, y = S.year, t = S.team, lk = locked();
   var st = r.status;
   var html = '<div class="crumbs"><a href="#" id="backHome">팀 목록</a> › <span>' + esc(t.name) + '</span></div>' +
-    '<div class="page-h"><div><div class="eyebrow">' + y + '년 예산안</div><h1>' + esc(t.name) + '</h1>' +
-    '<p>계정 ' + r.accounts.length + '개 · 항목 ' + S.lines.length + '개. 산출 방식과 기준액을 확인하고, 필요하면 인상률·조정액과 메모를 남겨 주세요.</p></div><div>' + pill(st) + '</div></div>';
+    '<div class="page-h"><div><div class="eyebrow">' + y + '년 예산안</div><div class="title-row"><h1>' + esc(t.name) + '</h1>' +
+    '<p>계정 ' + r.accounts.length + '개 · 항목 ' + S.lines.length + '개. 산출 방식과 기준액을 확인하고, 필요하면 인상률·조정액과 메모를 남겨 주세요.</p></div></div><div>' + pill(st) + '</div></div>';
   if (st && st.status === '반려') html += '<div class="notice bad"><b>반려됨</b> — ' + esc(st.comment || '관리자 의견을 확인하고 수정 후 다시 제출하세요.') + '</div>';
   if (lk) html += '<div class="notice ok"><b>승인 완료</b> — 승인된 예산은 수정할 수 없습니다. 수정이 필요하면 관리자에게 반려를 요청하세요.</div>';
   r.accounts.forEach(function (a) { html += acctHtml(a, lk); });
@@ -494,7 +506,7 @@ function lineHtml(L, lk) {
   var i = S.lines.indexOf(L), m = METHOD[L.method], c = compute(L), dis = lk ? ' disabled' : '';
   var cat = L.custom
     ? '<input class="inp" id="cat-' + esc(L.lineId) + '" data-i="' + i + '" data-f="category" value="' + esc(L.category) + '" placeholder="새 항목 이름 (예: 청년부 수련회)"' + dis + '>'
-    : '<b>' + esc(L.category) + '</b>';
+    : '<b>' + esc(L.category) + (koName(L.category, L.acct) ? ' <span class="ko">(' + esc(koName(L.category, L.acct)) + ')</span>' : '') + '</b>';
   var meta = [];
   if (!L.custom && (L.lines || L.months)) meta.push(L.lines + '건 · ' + L.months + '개월');
   if (L.vendors) meta.push('주요 거래처: ' + esc(L.vendors));
@@ -681,7 +693,7 @@ function renderAdmin() {
         sub[0] += a.prevBudget; sub[1] += a.actual9; sub[2] += a.projected12; sub[3] += p;
         body += row('acc', '<span class="mono">' + a.acct + '</span> ' + esc(a.nameKr), esc(a.nameEn), a.prevBudget, a.actual9, a.projected12, p, has, ' data-acc="' + a.acct + '"');
         body += '<tr class="det" data-det="' + a.acct + '" hidden><td colspan="8">' + (lines[a.acct] || []).filter(function (b) { return b.method !== 'EXCL'; }).map(function (b) {
-          return '<div><span class="mt ' + b.method + '">' + METHOD[b.method].label + '</span> <b>' + esc(b.category) + '</b> · <span class="mono">' + money(b.amount) + '</span> — ' + esc(b.rationale || '') + '</div>';
+          return '<div><span class="mt ' + b.method + '">' + METHOD[b.method].label + '</span> <b>' + esc(b.category) + (KO[b.category] ? ' (' + esc(KO[b.category]) + ')' : '') + '</b> · <span class="mono">' + money(b.amount) + '</span> — ' + esc(b.rationale || '') + '</div>';
         }).join('') + (lines[a.acct] ? '' : '아직 입력된 항목이 없습니다.') + '</td></tr>';
       });
       if (acc.length > 1) body += row('sub', '소계 · ' + esc(t.name), '', sub[0], sub[1], sub[2], sub[3], any);
