@@ -142,7 +142,7 @@ details.guide[open] summary::after{content:"접기"}
 .delta.up{color:var(--bad)} .delta.dn{color:var(--ok)}
 
 .lines{overflow-x:auto}
-.grid{display:grid;grid-template-columns:minmax(220px,2.4fr) 104px 128px 118px 70px 100px 112px 34px;gap:0 10px;align-items:center;padding:0 16px}
+.grid{display:grid;grid-template-columns:minmax(250px,2.4fr) 94px 116px 112px 64px 96px 104px 28px;gap:0 8px;align-items:center;padding:0 16px}
 .ghead{font-size:11.5px;color:var(--muted);font-weight:600;padding-block:8px;border-bottom:1px solid var(--line-2);letter-spacing:.02em}
 .ghead .r{text-align:right}
 .line{border-bottom:1px solid var(--line-2);padding-block:10px 8px}
@@ -152,6 +152,10 @@ details.guide[open] summary::after{content:"접기"}
 .cat b{font-weight:600;font-size:14px;display:inline-block;max-width:100%;background:var(--cat-bg);color:var(--title);padding:2px 8px;border-radius:4px;margin:0 0 3px -8px}
 .line.excl .cat b{background:transparent}
 .cat b .ko{font-weight:500}
+.cat b.editable{cursor:text}
+.cat b .pen{font-weight:400;color:var(--muted);font-size:12px;opacity:0;margin-left:2px}
+.cat b.editable:hover .pen,.cat b.editable:focus .pen{opacity:1}
+.cat b.editable:hover{outline:1px dashed var(--accent);outline-offset:1px}
 .cat input{width:100%}
 .cat small{display:block;color:var(--muted);font-size:12px;line-height:1.4;overflow-wrap:anywhere}
 .cat .hint{color:var(--warn)}
@@ -473,7 +477,7 @@ function loadTeam(teamId) {
     S.lines = [];
     r.baselines.forEach(function (b) {
       var s = saved[b.lineId];
-      S.lines.push({ acct: b.acct, lineId: b.lineId, category: b.category, actual9: b.actual9, lines: b.lines, months: b.months, hint: b.hint, vendors: b.vendors, custom: false,
+      S.lines.push({ acct: b.acct, lineId: b.lineId, category: s && s.category ? s.category : b.category, origCategory: b.category, actual9: b.actual9, lines: b.lines, months: b.months, hint: b.hint, vendors: b.vendors, custom: false,
         method: s ? s.method : b.method, basis: s ? s.basis : defaultBasis(b.method, b.actual9), rate: s ? s.rate : 0, adj: s ? s.adj : 0, note: s ? s.note : '' });
       if (s) delete saved[b.lineId];
     });
@@ -506,7 +510,9 @@ function lineHtml(L, lk) {
   var i = S.lines.indexOf(L), m = METHOD[L.method], c = compute(L), dis = lk ? ' disabled' : '';
   var cat = L.custom
     ? '<input class="inp" id="cat-' + esc(L.lineId) + '" data-i="' + i + '" data-f="category" value="' + esc(L.category) + '" placeholder="새 항목 이름 (예: 청년부 수련회)"' + dis + '>'
-    : '<b>' + esc(L.category) + (koName(L.category, L.acct) ? ' <span class="ko">(' + esc(koName(L.category, L.acct)) + ')</span>' : '') + '</b>';
+    : '<b' + (lk ? '' : ' class="editable" data-edit="' + i + '" tabindex="0" role="button" title="눌러서 항목 이름 수정"') + '>' + esc(L.category) +
+        (koName(L.category, L.acct) ? ' <span class="ko">(' + esc(koName(L.category, L.acct)) + ')</span>' : '') + (lk ? '' : ' <span class="pen" aria-hidden="true">✎</span>') + '</b>' +
+        (L.origCategory && L.category !== L.origCategory ? '<small>원래 항목명: ' + esc(L.origCategory) + '</small>' : '');
   var meta = [];
   if (!L.custom && (L.lines || L.months)) meta.push(L.lines + '건 · ' + L.months + '개월');
   if (L.vendors) meta.push('주요 거래처: ' + esc(L.vendors));
@@ -544,6 +550,26 @@ function bindEditor() {
     if (f === 'method') return;
     L[f] = el.value; markDirty(); updRow(el.closest('.line'), L);
   };
+  function startEdit(bEl) {
+    var L = S.lines[Number(bEl.dataset.edit)];
+    var inp = document.createElement('input');
+    inp.className = 'inp'; inp.id = 'cat-' + L.lineId; inp.dataset.i = bEl.dataset.edit; inp.dataset.f = 'category'; inp.dataset.rename = '1';
+    var before = L.category; inp.value = before; bEl.replaceWith(inp); inp.focus(); inp.select();
+    inp.onkeydown = function (ev) { if (ev.key === 'Enter') inp.blur(); if (ev.key === 'Escape') { L.category = before; inp.blur(); } };
+  }
+  app.addEventListener('click', function (e) { var bEl = e.target.closest('[data-edit]'); if (bEl) startEdit(bEl); });
+  app.addEventListener('keydown', function (e) { var bEl = e.target.closest && e.target.closest('[data-edit]'); if (bEl && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); startEdit(bEl); } });
+  app.addEventListener('focusout', function (e) {
+    var el = e.target;
+    if (el.dataset.rename) {
+      var L0 = S.lines[Number(el.dataset.i)];
+      if (!String(L0.category).trim()) L0.category = L0.origCategory || '';
+      L0.category = String(L0.category).trim();
+      var row0 = el.closest('.line'), t0 = document.createElement('div'); t0.innerHTML = lineHtml(L0, false);
+      setTimeout(function () { if (row0.isConnected) row0.replaceWith(t0.firstChild); }, 0);
+      return;
+    }
+  });
   app.addEventListener('focusout', function (e) {
     var el = e.target; if (el.dataset.f !== 'basis' || el.disabled) return;
     el.value = money(S.lines[Number(el.dataset.i)].basis, true);
@@ -693,7 +719,7 @@ function renderAdmin() {
         sub[0] += a.prevBudget; sub[1] += a.actual9; sub[2] += a.projected12; sub[3] += p;
         body += row('acc', '<span class="mono">' + a.acct + '</span> ' + esc(a.nameKr), esc(a.nameEn), a.prevBudget, a.actual9, a.projected12, p, has, ' data-acc="' + a.acct + '"');
         body += '<tr class="det" data-det="' + a.acct + '" hidden><td colspan="8">' + (lines[a.acct] || []).filter(function (b) { return b.method !== 'EXCL'; }).map(function (b) {
-          return '<div><span class="mt ' + b.method + '">' + METHOD[b.method].label + '</span> <b>' + esc(b.category) + (KO[b.category] ? ' (' + esc(KO[b.category]) + ')' : '') + '</b> · <span class="mono">' + money(b.amount) + '</span> — ' + esc(b.rationale || '') + '</div>';
+          return '<div><span class="mt ' + b.method + '">' + METHOD[b.method].label + '</span> <b>' + esc(b.category) + (koName(b.category, b.acct) ? ' (' + esc(koName(b.category, b.acct)) + ')' : '') + '</b> · <span class="mono">' + money(b.amount) + '</span> — ' + esc(b.rationale || '') + '</div>';
         }).join('') + (lines[a.acct] ? '' : '아직 입력된 항목이 없습니다.') + '</td></tr>';
       });
       if (acc.length > 1) body += row('sub', '소계 · ' + esc(t.name), '', sub[0], sub[1], sub[2], sub[3], any);
